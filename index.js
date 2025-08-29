@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -70,7 +69,7 @@ app.post('/bfhl', (req, res) => {
     // Prepare response
     const response = {
       is_success: true,
-      user_id: "shreya_goyal_07082004", // Changed to lowercase and proper date format
+      user_id: "shreya_goyal_07082004", 
       email: "shreyagoyal0708@gmail.com", 
       roll_number: "22BAI1217", 
       odd_numbers: oddNumbers,
@@ -96,7 +95,13 @@ app.get('/', (req, res) => {
   res.send('BFHL API is running. Use POST /bfhl to interact with the API.');
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+// Export for Vercel
+module.exports = app;
